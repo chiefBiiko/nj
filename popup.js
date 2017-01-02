@@ -47,13 +47,15 @@
       var len = nj.con.value.length;
       if (document.activeElement === nj.con && e.shiftKey === false && e.keyCode === 13) {
         processR();
-      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && e.keyCode === 38) {
+      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 38) {
         e.preventDefault();
         commandR('up');  // up arrow
-      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && e.keyCode === 40) {
+      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 40) {
         commandR('down');  // down arrow
       } else if (document.activeElement === nj.con && nj.con.selectionStart === len && e.keyCode === 27) {
         let pos = nj.con.value.lastIndexOf('\n') + 1;
         nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on esc
+      } else if (document.activeElement === nj.con && e.shiftKey === true && e.keyCode === 13) {
+        e.preventDefault();  // not allowing user generated new lines yet
       }
     });
