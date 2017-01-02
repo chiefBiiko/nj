@@ -11,29 +11,25 @@
     function processR() {
       var str, cmd, ret;
       str = nj.con.value;
-      // checking cmd history n getting current cmd
+      // checking history n getting current cmd
       if (nj.his.length === 0) {
         cmd = str.replace(/(\n)+/g, ''); 
       } else {
         let cur = str.replace(/(\n)+/g, '');  // NEW cmds
-        let col = nj.his.reduce(function(a, b) {return a.concat(b);}, []).join('');  // join arr to str // OLD cmds
-        cmd = cur.replace(col, '');  //extracting current cmd
+        let col = nj.his.reduce((a, b) => a.concat(b), []).join('');  // join arr to str // OLD cmds
+        cmd = cur.replace(col, '');  // extracting current cmd
       }
       // doing an indirect eval 2 call statement in global scope
       ret = String(window.eval(cmd));
       nj.his.push([cmd, ret]);
       nj.con.value += '\n' + ret;
     }
-    // define function that pops up cmd history on arrowkeys events
+    // func that pops up cmd history on arrowkeys events
     function commandR(arrow) {
       var crn, len;
-      // crn is an unique set of nj.his cmds otherwise not all cmds r retroaccessible
-      if (arrow === 'up') {  // how 2 collapse follwing map and filter into on func call?
-        crn = nj.his.map(x => x[0]).filter((item, i, arr) => arr.indexOf(item) === i).reverse();
-      } else {
-        crn = nj.his.map(x => x[0]).filter((item, i, arr) => arr.indexOf(item) === i);
-      }
-      if (!nj.prm) {
+      // crn is a unique array of nj.his cmds otherwise not all cmds r retroaccessible
+      (arrow === 'up') ? crn = [...new Set(nj.his.map(x => x[0]))].reverse() : crn = [...new Set(nj.his.map(x => x[0]))];
+      if (!nj.prm) {  // nj.prm is temp memory what cmd is on prompt
         nj.con.value += crn[0];
         nj.prm = crn[0];
       } else if (crn[crn.indexOf(nj.prm) + 1]) {  // making sure cmd history item is defined at target index
@@ -56,5 +52,8 @@
         commandR('up');  // up arrow
       } else if (document.activeElement === nj.con && nj.con.selectionStart === len && e.keyCode === 40) {
         commandR('down');  // down arrow
+      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && e.keyCode === 27) {
+        let pos = nj.con.value.lastIndexOf('\n') + 1;
+        nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on esc
       }
     });
