@@ -3,12 +3,17 @@
   <head>
     <title>nj</title>
     <style>
-      body { font: normal normal 400 100% 'sans-serif'; }
+      body { font: normal normal 400 90% 'mono'; width: 370px; }
+      #clear { cursor: pointer; display: block; margin: 0 0 5px 0; }
     </style>
   </head>
   <body>
-    <textarea id='console' cols='40' rows='10'></textarea>
-    <!-- clear all btn, docs btn, hints -->
+    <button id='clear'>Clear console</button>
+    <textarea id='console' rows='10' cols='50' placeholder='var v = [0,1,2,3,4];&#10;undefined&#10;numeric.sum(v);&#10;10&#10;numeric.dot(v, [5,6,7,8,9]);&#10;80'></textarea>
+    <div>&bull; Commands are evaluated in strict mode: do declare vars, etc.</div>
+    <div>&bull; Cannot write new lines at the prompt, use 1-liners: if (1) {...}</div>
+    <div>&bull; Check out the link &darr; 4 more info on Numeric Javascript</div>
+    <a href='http://www.numericjs.com/documentation.html' target='_blank' title='Numeric Javascript: a library by Sébastien Loisel'>Docs 4 Numeric Javascript</a>
     <script src='numeric-1.2.6.min.js'></script>
     <script src='popup.js'></script>
   </body>
