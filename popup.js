@@ -47,18 +47,19 @@ function commandR(arrow) {
 document.addEventListener('keydown', function(e) {
   var len = nj.con.value.length;
   if (document.activeElement === nj.con) {
-    if (e.shiftKey === false && e.keyCode === 13) {
+    if (!e.shiftKey && e.keyCode === 13) {
       processR(e);
     } else if (nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 38) {
       e.preventDefault();
       commandR('up');  // up arrow
+      nj.ppd = true;  // indicating cmd history is popped up on prompt
     } else if (nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 40) {
       commandR('down');  // down arrow
-    } else if (nj.con.selectionStart === len && e.keyCode === 27) {
+      nj.ppd = true;
+    } else if (nj.con.selectionStart === len && nj.ppd && e.keyCode === 27) {
       let pos = nj.con.value.lastIndexOf('\n') + 1;
       nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on esc
-    } else if (e.shiftKey === true && e.keyCode === 13) {
-      e.preventDefault();  // not allowing user-generated new lines
+      nj.ppd = false;
     }
   }
 });
