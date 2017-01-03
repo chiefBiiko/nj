@@ -21,7 +21,7 @@ function processR(e) {
     return false;
   }
   // doing an indirect eval 2 call statement in global scope
-  ret = String(window.eval(cmd));
+  setTimeout(ret = String(window.eval(cmd)), 0);
   nj.his.push([cmd, ret]);
   nj.con.value += '\n' + ret;
 }
@@ -66,4 +66,6 @@ document.addEventListener('keydown', function(e) {
 // clear btn
 document.getElementById('clear').addEventListener('click', function(e) {
   nj.con.value = nj.con.placeholder = '';
+  nj.ppd = nj.prm = false;
+  nj.his = [];
 });
