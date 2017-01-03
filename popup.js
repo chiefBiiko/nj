@@ -8,7 +8,7 @@
     nj.con = document.getElementById('console');
     nj.his = [];  // history array
     // func 2 process commands and display return val
-    function processR() {
+    function processR(e) {
       var str, cmd, ret;
       str = nj.con.value;
       // checking history n getting current cmd
@@ -18,6 +18,10 @@
         let cur = str.replace(/(\n)+/g, '');  // NEW cmds
         let col = nj.his.reduce((a, b) => a.concat(b), []).join('');  // join arr to str // OLD cmds
         cmd = cur.replace(col, '');  // extracting current cmd
+      }
+      if (!cmd) {
+        e.preventDefault();  // preventing a new line
+        return false;
       }
       // doing an indirect eval 2 call statement in global scope
       ret = String(window.eval(cmd));
@@ -45,17 +49,19 @@
     // keys event listener
     window.addEventListener('keydown', function(e) {
       var len = nj.con.value.length;
-      if (document.activeElement === nj.con && e.shiftKey === false && e.keyCode === 13) {
-        processR();
-      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 38) {
-        e.preventDefault();
-        commandR('up');  // up arrow
-      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 40) {
-        commandR('down');  // down arrow
-      } else if (document.activeElement === nj.con && nj.con.selectionStart === len && e.keyCode === 27) {
-        let pos = nj.con.value.lastIndexOf('\n') + 1;
-        nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on esc
-      } else if (document.activeElement === nj.con && e.shiftKey === true && e.keyCode === 13) {
-        e.preventDefault();  // not allowing user generated new lines yet
+      if (document.activeElement === nj.con) {
+        if (e.shiftKey === false && e.keyCode === 13) {
+          processR(e);
+        } else if (nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 38) {
+          e.preventDefault();
+          commandR('up');  // up arrow
+        } else if (nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 40) {
+          commandR('down');  // down arrow
+        } else if (nj.con.selectionStart === len && e.keyCode === 27) {
+          let pos = nj.con.value.lastIndexOf('\n') + 1;
+          nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on esc
+        } else if (e.shiftKey === true && e.keyCode === 13) {
+          e.preventDefault();  // not allowing user-generated new lines
+        }
       }
     });
