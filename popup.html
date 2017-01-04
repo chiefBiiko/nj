@@ -3,16 +3,25 @@
   <head>
     <title>nj</title>
     <style>
-      body { font: normal normal 400 90% 'mono'; width: 370px; }
-      #clear { cursor: pointer; display: block; margin: 0 0 5px 0; }
+      body { font: normal normal 400 90% 'sans-serif'; width: 370px; }
+      #clear, #toggle { cursor: pointer; display: inline-block; margin: 0 0 5px 0; }
+      code { display: inline-block; width: 175px; }
+      #ref { display: none; padding: 10px; }
     </style>
   </head>
   <body>
+    <strong>nj - a console for numeric computations in JavaScript</strong>
+    <div>based on Numeric Javascript <a href='http://www.numericjs.com/documentation.html' target='_blank' title='Numeric Javascript: a library by Sébastien Loisel'>Docs</a></div><br>
     <button id='clear'>Clear console</button>
     <textarea id='console' rows='10' cols='49' placeholder='var v = [0,1,2,3,4];&#10;undefined&#10;if (!0) {&#10;  numeric.sum(v);&#10;}&#10;10&#10;numeric.dot(v, [5,6,7,8,9]);&#10;80'></textarea>
-    <div>&bull; Commands are evaluated in strict mode: do declare vars, etc.</div>
-    <div>&bull; Check out the link &darr; 4 more info on Numeric Javascript</div>
-    <a href='http://www.numericjs.com/documentation.html' target='_blank' title='Numeric Javascript: a library by Sébastien Loisel'>Docs 4 Numeric Javascript</a>
+    <button id='toggle'>nj key reference</button>
+    <div id='ref'>
+      <div><code>Return</code> process cmd</div>
+      <div><code>Shift+Return</code> new line</div>
+      <div><code>Up/Down</code> browse cmd history</div>
+      <div><code>Del</code> exit cmd history</div>
+      <div><code>Esc</code> close nj</div>
+    </div>
     <script src='numeric-1.2.6.min.js'></script>
     <script src='popup.js'></script>
   </body>

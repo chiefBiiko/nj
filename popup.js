@@ -6,13 +6,12 @@ nj.con = document.getElementById('console');
 nj.his = [];  // history array
 // func 2 process commands and display return val
 function processR(e) {
-  var str, cmd, ret;
-  str = nj.con.value;
+  var cmd, ret;
   // checking history n getting current cmd
   if (nj.his.length === 0) {
-    cmd = str.replace(/(\n)+/g, ''); 
+    cmd = nj.con.value.replace(/(\n)+/g, ''); 
   } else {
-    let cur = str.replace(/(\n)+/g, '');  // NEW cmds
+    let cur = nj.con.value.replace(/(\n)+/g, '');  // NEW cmds
     let col = nj.his.reduce((a, b) => a.concat(b), []).join('');  // join arr to str // OLD cmds
     cmd = cur.replace(col, '');  // extracting current cmd
   }
@@ -21,7 +20,7 @@ function processR(e) {
     return false;
   }
   // doing an indirect eval 2 call statement in global scope
-  setTimeout(ret = String(window.eval(cmd)), 0);
+  ret = String(window.eval(cmd));
   nj.his.push([cmd, ret]);
   nj.con.value += '\n' + ret;
 }
@@ -56,9 +55,9 @@ document.addEventListener('keydown', function(e) {
     } else if (nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 40) {
       commandR('down');  // down arrow
       nj.ppd = true;
-    } else if (nj.con.selectionStart === len && nj.ppd && e.keyCode === 27) {
+    } else if (nj.con.selectionStart === len && nj.ppd && e.keyCode === 46) {
       let pos = nj.con.value.lastIndexOf('\n') + 1;
-      nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on esc
+      nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on del
       nj.ppd = false;
     }
   }
@@ -68,4 +67,9 @@ document.getElementById('clear').addEventListener('click', function(e) {
   nj.con.value = nj.con.placeholder = '';
   nj.ppd = nj.prm = false;
   nj.his = [];
+});
+// toggle btn
+document.getElementById('toggle').addEventListener('click', function(e) {
+  var ref = document.getElementById('ref');
+  (ref.style.display === 'none') ? ref.style.display = 'block' : ref.style.display = 'none'; 
 });
