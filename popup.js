@@ -19,7 +19,7 @@ function processR(e) {
     e.preventDefault();  // preventing a new line
     return false;
   }
-  // doing an indirect eval 2 call statement in global scope
+  // doing an indirect eval 2 call cmd in global scope
   ret = String(window.eval(cmd));
   nj.his.push([cmd, ret]);
   nj.con.value += '\n' + ret;
@@ -67,6 +67,8 @@ document.getElementById('clear').addEventListener('click', function(e) {
   nj.con.value = nj.con.placeholder = '';
   nj.ppd = nj.prm = false;
   nj.his = [];
+  nj.con.setSelectionRange(0, 0);
+  nj.con.focus();
 });
 // toggle btn
 document.getElementById('toggle').addEventListener('click', function(e) {
