@@ -19,14 +19,18 @@ function processR(e) {
     e.preventDefault();  // preventing a new line
     return false;
   }
-  // doing an indirect eval 2 call cmd in global scope
-  ret = String(window.eval(cmd));
-  nj.his.push([cmd, ret]);
-  nj.con.value += '\n' + ret;
+  try {  // doing an indirect eval 2 call cmd in global scope
+    ret = String(window.eval(cmd));
+  } catch(err) {
+    ret = err;
+  } finally {
+    nj.his.push([cmd, ret]);
+    nj.con.value += '\n' + ret;
+  }
 }
 // func that pops up cmd history on arrowkeys events
 function commandR(arrow) {
-  var crn, len;
+  var crn;
   // crn is a unique array of nj.his cmds otherwise not all cmds r retroaccessible
   (arrow === 'up') ? crn = [...new Set(nj.his.map(x => x[0]))].reverse() : crn = [...new Set(nj.his.map(x => x[0]))];
   if (!nj.prm) {  // nj.prm is temp memory what cmd is on prompt
@@ -34,30 +38,26 @@ function commandR(arrow) {
     nj.prm = crn[0];
   } else if (crn[crn.indexOf(nj.prm) + 1]) {  // making sure cmd history item is defined at target index
     // remove last cmd on prompt before adding new from target index
-    let pos = nj.con.value.lastIndexOf('\n') + 1;
-    nj.con.value = nj.con.value.substr(0, pos);
+    nj.con.value = nj.con.value.substr(0, nj.con.value.lastIndexOf('\n') + 1);
     nj.con.value += crn[crn.indexOf(nj.prm) + 1];
     nj.prm = crn[crn.indexOf(nj.prm) + 1];
   }
-  len = nj.con.value.length;
-  nj.con.setSelectionRange(len, len);
+  nj.con.setSelectionRange(nj.con.value.length, nj.con.value.length);
 }
-// keys event listener
+// key events
 document.addEventListener('keydown', function(e) {
-  var len = nj.con.value.length;
   if (document.activeElement === nj.con) {
     if (!e.shiftKey && e.keyCode === 13) {
       processR(e);
-    } else if (nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 38) {
+    } else if (nj.con.selectionStart === nj.con.value.length && nj.his.length > 0 && e.keyCode === 38) {
       e.preventDefault();
       commandR('up');  // up arrow
       nj.ppd = true;  // indicating cmd history is popped up on prompt
-    } else if (nj.con.selectionStart === len && nj.his.length > 0 && e.keyCode === 40) {
+    } else if (nj.con.selectionStart === nj.con.value.length && nj.his.length > 0 && e.keyCode === 40) {
       commandR('down');  // down arrow
       nj.ppd = true;
-    } else if (nj.con.selectionStart === len && nj.ppd && e.keyCode === 46) {
-      let pos = nj.con.value.lastIndexOf('\n') + 1;
-      nj.con.value = nj.con.value.substr(0, pos);  // clearing prompt on del
+    } else if (nj.con.selectionStart === nj.con.value.length && nj.ppd && e.keyCode === 46) {
+      nj.con.value = nj.con.value.substr(0, nj.con.value.lastIndexOf('\n') + 1);  // clearing prompt on del
       nj.ppd = false;
     }
   }
@@ -67,7 +67,6 @@ document.getElementById('clear').addEventListener('click', function(e) {
   nj.con.value = nj.con.placeholder = '';
   nj.ppd = nj.prm = false;
   nj.his = [];
-  nj.con.setSelectionRange(0, 0);
   nj.con.focus();
 });
 // toggle btn
