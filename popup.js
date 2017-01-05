@@ -12,7 +12,7 @@ function processR(e) {
     cmd = nj.con.value.replace(/(\n)+/g, ''); 
   } else {
     let cur = nj.con.value.replace(/(\n)+/g, '');  // NEW cmds
-    let col = nj.his.reduce((a, b) => a.concat(b), []).join('');  // join arr to str // OLD cmds
+    let col = nj.his.reduce((a, b) => a.concat(b), []).join('');  // 2darr to str // OLD cmds
     cmd = cur.replace(col, '');  // extracting current cmd
   }
   if (!cmd) {
@@ -37,7 +37,7 @@ function commandR(arrow) {
     nj.con.value += crn[0];
     nj.prm = crn[0];
   } else if (crn[crn.indexOf(nj.prm) + 1]) {  // making sure cmd history item is defined at target index
-    // remove last cmd on prompt before adding new from target index
+    // removing last cmd on prompt before adding new from target index
     nj.con.value = nj.con.value.substr(0, nj.con.value.lastIndexOf('\n') + 1);
     nj.con.value += crn[crn.indexOf(nj.prm) + 1];
     nj.prm = crn[crn.indexOf(nj.prm) + 1];
