@@ -13,3 +13,5 @@ based upon http://www.numericjs.com/
 3. tick checkbox 'Developer mode'
 4. click 'Load unpacked extension...'
 5. choose nj's directory - done.
+
+come back and git an updated version of nj every now and then..

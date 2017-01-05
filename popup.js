@@ -7,8 +7,7 @@ nj.his = [];  // history array
 // func 2 process commands and display return val
 function processR(e) {
   var cmd, ret;
-  // checking history n getting current cmd
-  if (nj.his.length === 0) {
+  if (nj.his.length === 0) {  // checking history n getting current cmd
     cmd = nj.con.value.replace(/(\n)+/g, ''); 
   } else {
     let cur = nj.con.value.replace(/(\n)+/g, '');  // NEW cmds
@@ -28,7 +27,7 @@ function processR(e) {
     nj.con.value += '\n' + ret;
   }
 }
-// func that pops up cmd history on arrowkeys events
+// func that pops up cmd history on arrowkey events
 function commandR(arrow) {
   var crn;
   // crn is a unique array of nj.his cmds otherwise not all cmds r retroaccessible
@@ -52,20 +51,17 @@ document.addEventListener('keydown', function(e) {
     } else if (nj.con.selectionStart === nj.con.value.length && nj.his.length > 0 && e.keyCode === 38) {
       e.preventDefault();
       commandR('up');  // up arrow
-      nj.ppd = true;  // indicating cmd history is popped up on prompt
     } else if (nj.con.selectionStart === nj.con.value.length && nj.his.length > 0 && e.keyCode === 40) {
       commandR('down');  // down arrow
-      nj.ppd = true;
-    } else if (nj.con.selectionStart === nj.con.value.length && nj.ppd && e.keyCode === 46) {
+    } else if (nj.con.selectionStart === nj.con.value.length && nj.prm && e.keyCode === 46) {
       nj.con.value = nj.con.value.substr(0, nj.con.value.lastIndexOf('\n') + 1);  // clearing prompt on del
-      nj.ppd = false;
+      nj.prm = '';
     }
   }
 });
 // clear btn
 document.getElementById('clear').addEventListener('click', function(e) {
-  nj.con.value = nj.con.placeholder = '';
-  nj.ppd = nj.prm = false;
+  nj.con.value = nj.con.placeholder = nj.prm = '';
   nj.his = [];
   nj.con.focus();
 });
