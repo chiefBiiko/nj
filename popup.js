@@ -30,8 +30,7 @@ function commandR(arrow) {
   var crn;  // crn is a unique array of nj.his cmds otherwise not all cmds r retroaccessible
   (arrow === 'up') ? crn = [...new Set(nj.his.map(x => x[0]))].reverse() : crn = [...new Set(nj.his.map(x => x[0]))];
   if (!nj.prm) {  // nj.prm is temp memory what cmd is on prompt
-    nj.con.value += crn[0];
-    nj.prm = crn[0];
+    nj.con.value += nj.prm = crn[0];
   } else if (crn[crn.indexOf(nj.prm) + 1]) {  // making sure cmd history item is defined at target index
     nj.con.value = nj.con.value.substr(0, nj.con.value.lastIndexOf('\n') + 1);
     nj.con.value += crn[crn.indexOf(nj.prm) + 1]; // rming last cmd on prompt b4 adding new from target
