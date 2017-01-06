@@ -33,8 +33,7 @@ function commandR(arrow) {
     nj.con.value += nj.prm = crn[0];
   } else if (crn[crn.indexOf(nj.prm) + 1]) {  // making sure cmd history item is defined at target index
     nj.con.value = nj.con.value.substr(0, nj.con.value.lastIndexOf('\n') + 1);
-    nj.con.value += crn[crn.indexOf(nj.prm) + 1]; // rming last cmd on prompt b4 adding new from target
-    nj.prm = crn[crn.indexOf(nj.prm) + 1];
+    nj.con.value += nj.prm = crn[crn.indexOf(nj.prm) + 1]; // rming last cmd on prompt b4 adding new from target
   }
   nj.con.setSelectionRange(nj.con.value.length, nj.con.value.length);
 }
