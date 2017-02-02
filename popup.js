@@ -1,7 +1,11 @@
 /* a chrome extension that emulates a console to perform numerical computations in js
 based upon http://www.numericjs.com/ */
 'use strict';
-var nj = {con: document.getElementById('console'), his: [], ref: document.getElementById('ref')};
+var nj = {
+  con: document.getElementById('console'),
+  ref: document.getElementById('ref'),
+  his: []
+};
 // func 2 process commands and display return val
 function processR(e) {
   var cmd, ret;
